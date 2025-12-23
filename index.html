@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>男生代聊智能体 - 光速恋爱体验</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 微软雅黑;}
+    body {background: #f5f5f5; padding: 20px;}
+    .chat-container {max-width: 800px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 2px 15px #eee; padding: 20px;}
+    .chat-title {text-align: center; color: #333; margin-bottom: 20px; font-size: 20px;}
+    .chat-messages {height: 500px; overflow-y: auto; border: 1px solid #eee; border-radius: 5px; padding: 10px; margin-bottom: 20px;}
+    .user-msg {text-align: right; margin: 10px 0;}
+    .user-msg span {background: #007aff; color: white; padding: 8px 15px; border-radius: 15px; display: inline-block;}
+    .ai-msg {text-align: left; margin: 10px 0;}
+    .ai-msg span {background: #f5f5f5; color: #333; padding: 8px 15px; border-radius: 15px; display: inline-block;}
+    .chat-input {display: flex; gap: 10px;}
+    #msg-input {flex: 1; padding: 10px; border: 1px solid #eee; border-radius: 5px; outline: none;}
+    #send-btn {padding: 0 20px; background: #007aff; color: white; border: none; border-radius: 5px; cursor: pointer;}
+    .buy-btn {display: block; width: 200px; height: 45px; line-height: 45px; text-align: center; background: #ff6700; color: white; text-decoration: none; border-radius: 5px; margin: 20px auto 0; font-size: 16px;}
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <h2 class="chat-title">男生代聊智能体 - 光速恋爱体验</h2>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="msg-input" placeholder="输入你想代聊的内容，比如：怎么开场不尬聊？">
+      <button id="send-btn">发送</button>
+    </div>
+    <a href="#" class="buy-btn">购买套餐，立即解锁</a>
+  </div>
+  <script>
+    const API_URL = "https://api.coze.cn/v1/workflows/chat";
+    const TOKEN = "cztei_l9f5MkTORdvdliEeWlBqwsiomecPKLpE5k0slw3nun86SPnwi8heZpGh2hdcbukV4";
+    const WORKFLOW_ID = "7586674619311931435";
+    const chatMessages = document.getElementById('chat-messages');
+    const msgInput = document.getElementById('msg-input');
+    const sendBtn = document.getElementById('send-btn');
+    async function sendMessage() {
+      const userText = msgInput.value.trim();
+      if (!userText) return;
+      chatMessages.innerHTML += `<div class="user-msg"><span>${userText}</span></div>`;
+      msgInput.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {"Authorization": `Bearer ${TOKEN}`,"Content-Type": "application/json"},
+          body: JSON.stringify({
+            "workflow_id": WORKFLOW_ID,
+            "parameters": {},
+            "additional_messages": [{"content_type": "text","content": userText,"role": "user","type": "question"}]
+          })
+        });
+        const result = await response.json();
+        const aiText = result.data?.content || "已收到你的请求，正在生成回复...";
+        chatMessages.innerHTML += `<div class="ai-msg"><span>${aiText}</span></div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      } catch (error) {
+        chatMessages.innerHTML += `<div class="ai-msg"><span>出错了：${error.message}，请重试</span></div>`;
+      }
+    }
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keypress', (e) => {if (e.key === 'Enter') sendMessage();});
+  </script>
+</body>
+</html>
