@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.8.1.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { background: transparent }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;<font face="NSimSun, monospace"><span lang="zh-CN">男生代聊智能体 </span></font>- <font face="NSimSun, monospace"><span lang="zh-CN">光速恋爱体验</span></font>&lt;/title&gt;
+  &lt;style&gt;
+    /* <font face="NSimSun, monospace"><span lang="zh-CN">简单美化聊天界面，不用改 </span></font>*/
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: <font face="NSimSun, monospace"><span lang="zh-CN">微软雅黑</span></font>;}
+    body {background: #f5f5f5; padding: 20px;}
+    .chat-container {max-width: 800px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 2px 15px #eee; padding: 20px;}
+    .chat-title {text-align: center; color: #333; margin-bottom: 20px; font-size: 20px;}
+    .chat-messages {height: 500px; overflow-y: auto; border: 1px solid #eee; border-radius: 5px; padding: 10px; margin-bottom: 20px;}
+    .user-msg {text-align: right; margin: 10px 0;}
+    .user-msg span {background: #007aff; color: white; padding: 8px 15px; border-radius: 15px; display: inline-block;}
+    .ai-msg {text-align: left; margin: 10px 0;}
+    .ai-msg span {background: #f5f5f5; color: #333; padding: 8px 15px; border-radius: 15px; display: inline-block;}
+    .chat-input {display: flex; gap: 10px;}
+    #msg-input {flex: 1; padding: 10px; border: 1px solid #eee; border-radius: 5px; outline: none;}
+    #send-btn {padding: 0 20px; background: #007aff; color: white; border: none; border-radius: 5px; cursor: pointer;}
+    .buy-btn {display: block; width: 200px; height: 45px; line-height: 45px; text-align: center; background: #ff6700; color: white; text-decoration: none; border-radius: 5px; margin: 20px auto 0; font-size: 16px;}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;chat-container&quot;&gt;
+    &lt;h2 class=&quot;chat-title&quot;&gt;<font face="NSimSun, monospace"><span lang="zh-CN">男生代聊智能体 </span></font>- <font face="NSimSun, monospace"><span lang="zh-CN">光速恋爱体验</span></font>&lt;/h2&gt;
+    &lt;div class=&quot;chat-messages&quot; id=&quot;chat-messages&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;chat-input&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;msg-input&quot; placeholder=&quot;<font face="NSimSun, monospace"><span lang="zh-CN">输入你想代聊的内容，比如：怎么开场不尬聊？</span></font>&quot;&gt;
+      &lt;button id=&quot;send-btn&quot;&gt;<font face="NSimSun, monospace"><span lang="zh-CN">发送</span></font>&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;!-- <font face="NSimSun, monospace"><span lang="zh-CN">购买套餐按钮，后续替换成金数据链接 </span></font>--&gt;
+    &lt;a href=&quot;<font face="NSimSun, monospace"><span lang="zh-CN">这里替换成金数据订单表单链接</span></font>&quot; class=&quot;buy-btn&quot;&gt;<font face="NSimSun, monospace"><span lang="zh-CN">购买套餐，立即解锁</span></font>&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    // 1. <font face="NSimSun, monospace"><span lang="zh-CN">配置你的工作流</span></font>API<font face="NSimSun, monospace"><span lang="zh-CN">参数（已填好你的值，核对即可）</span></font>
+    const API_URL = &quot;https://api.coze.cn/v1/workflows/chat&quot;;
+    const TOKEN = &quot;cztei_l9f5MkTORdvdliEeWlBqwsiomecPKLpE5k0slw3nun86SPnwi8heZpGh2hdcbukV4&quot;;
+    const WORKFLOW_ID = &quot;7586674619311931435&quot;;
+
+    // 2. <font face="NSimSun, monospace"><span lang="zh-CN">获取页面元素</span></font>
+    const chatMessages = document.getElementById('chat-messages');
+    const msgInput = document.getElementById('msg-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // 3. <font face="NSimSun, monospace"><span lang="zh-CN">发送消息调用工作流</span></font>API
+    async function sendMessage() {
+      const userText = msgInput.value.trim();
+      if (!userText) return;
+
+      // <font face="NSimSun, monospace"><span lang="zh-CN">显示用户消息</span></font>
+      chatMessages.innerHTML += `&lt;div class=&quot;user-msg&quot;&gt;&lt;span&gt;${userText}&lt;/span&gt;&lt;/div&gt;`;
+      msgInput.value = &quot;&quot;;
+      chatMessages.scrollTop = chatMessages.scrollHeight; // <font face="NSimSun, monospace"><span lang="zh-CN">滚动到底部</span></font>
+
+      try {
+        // <font face="NSimSun, monospace"><span lang="zh-CN">调用你的</span></font>curl<font face="NSimSun, monospace"><span lang="zh-CN">对应的</span></font>API<font face="NSimSun, monospace"><span lang="zh-CN">（完全等价于你的</span></font>curl<font face="NSimSun, monospace"><span lang="zh-CN">命令）</span></font>
+        const response = await fetch(API_URL, {
+          method: &quot;POST&quot;,
+          headers: {
+            &quot;Authorization&quot;: `Bearer ${TOKEN}`,
+            &quot;Content-Type&quot;: &quot;application/json&quot;
+          },
+          body: JSON.stringify({
+            &quot;workflow_id&quot;: WORKFLOW_ID,
+            &quot;parameters&quot;: {},
+            &quot;additional_messages&quot;: [
+              {
+                &quot;content_type&quot;: &quot;text&quot;,
+                &quot;content&quot;: userText,
+                &quot;role&quot;: &quot;user&quot;,
+                &quot;type&quot;: &quot;question&quot;
+              }
+            ]
+          })
+        });
+
+        const result = await response.json();
+        const aiText = result.data?.content || &quot;<font face="NSimSun, monospace"><span lang="zh-CN">已收到你的请求，正在生成回复</span></font>...&quot;;
+        
+        // <font face="NSimSun, monospace"><span lang="zh-CN">显示</span></font>AI<font face="NSimSun, monospace"><span lang="zh-CN">消息</span></font>
+        chatMessages.innerHTML += `&lt;div class=&quot;ai-msg&quot;&gt;&lt;span&gt;${aiText}&lt;/span&gt;&lt;/div&gt;`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      } catch (error) {
+        // <font face="NSimSun, monospace"><span lang="zh-CN">出错提示</span></font>
+        chatMessages.innerHTML += `&lt;div class=&quot;ai-msg&quot;&gt;&lt;span&gt;<font face="NSimSun, monospace"><span lang="zh-CN">出错了：</span></font>${error.message}<font face="NSimSun, monospace"><span lang="zh-CN">，请重试</span></font>&lt;/span&gt;&lt;/div&gt;`;
+      }
+    }
+
+    // 4. <font face="NSimSun, monospace"><span lang="zh-CN">绑定发送按钮和回车事件</span></font>
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keypress', (e) =&gt; {
+      if (e.key === 'Enter') sendMessage();
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
